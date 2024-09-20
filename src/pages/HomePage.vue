@@ -1,5 +1,6 @@
 <script setup>
 import { AppState } from '@/AppState.js';
+import PostBox from '@/components/globals/PostBox.vue';
 import { postsService } from '@/services/PostsService.js';
 import Pop from '@/utils/Pop.js';
 import { computed, onMounted } from 'vue';
@@ -24,29 +25,7 @@ async function getPosts() {
 
 <template>
   <div class="container-fluid">
-    <!-- SECTION this could be the post-box component -->
-    <section class="row">
-      <!-- STUB this could be the post component-->
-      <div class="col-12">
-        <div>
-          Post content
-        </div>
-      </div>
-      <div class="col-12">
-        <div class="d-flex justify-content-center">
-          <div>
-            previous
-          </div>
-          <div>
-            Page count
-          </div>
-          <div>
-            next
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- !SECTION -->
+    <PostBox :posts="posts" />
   </div>
 </template>
 
