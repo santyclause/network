@@ -64,7 +64,7 @@ a:hover {
   width: 20vw;
   height: 100vh;
   top: 0;
-  background-color: var(--light);
+  background-color: var(--lightest);
   border-right: 1px solid #999999;
 }
 

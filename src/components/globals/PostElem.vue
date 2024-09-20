@@ -11,9 +11,9 @@ defineProps({
 
 
 <template>
-  <section class="row">
+  <section class="row my-5 post">
     <div class="col-12">
-      <div class="d-flex">
+      <div class="d-flex align-items-center gap-3">
         <div>
           <img :src="post.creator.picture" :alt="post.creator.name" class="creatorImg">
         </div>
@@ -22,11 +22,11 @@ defineProps({
         </div>
       </div>
     </div>
-    <div class="col-12">
-      Post content
+    <div class="col-12 my-3">
+      {{ post.body }}
     </div>
-    <div class="col-12">
-      Img
+    <div v-if="post.imgUrl" class="col-12">
+      <img :src="post.imgUrl" alt="image" class="img-fluid">
     </div>
   </section>
 </template>
@@ -39,5 +39,11 @@ defineProps({
   object-fit: cover;
   object-position: center;
   border-radius: 50%;
+}
+
+.post {
+  box-shadow: 1px 1px 10px #999999;
+  background-color: var(--lightest);
+  padding: 2rem;
 }
 </style>

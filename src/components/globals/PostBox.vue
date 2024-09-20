@@ -13,9 +13,9 @@ const { posts } = defineProps(['posts'])
 
 
 <template>
-  <section class="row">
+  <section class="row postBox">
     <div class="col-12">
-      <div class="container">
+      <div class="container post-list px-5">
         <PostElem v-for="post in posts" :key="post.id" :post="post" />
       </div>
     </div>
@@ -36,4 +36,13 @@ const { posts } = defineProps(['posts'])
 </template>
 
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.post-box {
+  max-height: calc(100vh - 64px);
+}
+
+.post-list {
+  max-height: calc(100vh - 64px - 64px);
+  overflow: auto;
+}
+</style>
