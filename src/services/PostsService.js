@@ -17,6 +17,13 @@ class PostsService {
     AppState.currentPage = response.data.page;
     AppState.totalPages = response.data.totalPages;
   }
+
+  async createPost(content) {
+    const response = await api.post('/api/posts', content);
+    console.log(response.data)
+    // const newPost = new Post(response.data);
+    // AppState.posts.unshift(newPost);
+  }
 }
 
 export const postsService = new PostsService();

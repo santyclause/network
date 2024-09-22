@@ -10,7 +10,16 @@ const posts = computed(() => AppState.posts)
 
 onMounted(() => {
   getPosts();
+  // superImportantFunction();
 })
+
+// function superImportantFunction() {
+//   let rand = Math.random();
+//   if (rand <= 0.05) {
+//     throw new Error(`Cannot access properties of undefined
+//     at getPosts (HomePage.vue?t=1726871649238:26:15)`);
+//   }
+// }
 
 async function getPosts() {
   try {
@@ -20,6 +29,7 @@ async function getPosts() {
     Pop.error(error);
   }
 }
+
 
 </script>
 

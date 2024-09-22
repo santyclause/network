@@ -28,6 +28,12 @@ defineProps({
     <div v-if="post.imgUrl" class="col-12">
       <img :src="post.imgUrl" alt="image" class="img-fluid">
     </div>
+    <div class="col-12">
+      <div class="pt-3 d-flex align-items-end justify-content-end fs-3">
+        <i class="mdi mdi-heart-outline mx-3" role="button"></i>
+        <span>{{ post.likes.length }}</span>
+      </div>
+    </div>
   </section>
 </template>
 

@@ -1,7 +1,8 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { loadState, saveState } from '../utils/Store.js';
 import Login from './Login.vue';
+import { AppState } from '@/AppState.js';
 
 // const theme = ref(loadState('theme') || 'light')
 
@@ -15,6 +16,8 @@ import Login from './Login.vue';
 //   saveState('theme', theme.value)
 // }
 
+const account = computed(() => AppState.account);
+
 </script>
 
 <template>
@@ -22,6 +25,13 @@ import Login from './Login.vue';
     <div class="sidebar pt-5">
       <div class="d-flex justify-content-center">
         <Login />
+      </div>
+      <div v-if="account" class="d-flex flex-column mx-5">
+        <p>{{ account.class }}</p>
+        <h3>{{ account.name }}</h3>
+        <p>{{ account.github }}</p>
+        <p>{{ account.linkedin }}</p>
+        <p>{{ account.resume }}</p>
       </div>
     </div>
     <div class="w-100 d-flex justify-content-between align-items-center nav-pad">

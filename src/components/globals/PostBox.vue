@@ -5,6 +5,7 @@ import { AppState } from '@/AppState.js';
 import { computed, watch } from 'vue';
 import { postsService } from '@/services/PostsService.js';
 import Pop from '@/utils/Pop.js';
+import PostForm from './PostForm.vue';
 
 
 /**
@@ -36,6 +37,7 @@ async function getPosts(page) {
   <section class="row post-box">
     <div class="col-12 p-0">
       <div id="post-list" class="container-fluid post-list px-5">
+        <PostForm />
         <PostElem v-for="post in posts" :key="post.id" :post="post" />
       </div>
     </div>
