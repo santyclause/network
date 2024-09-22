@@ -15,7 +15,9 @@ defineProps({
     <div class="col-12">
       <div class="d-flex align-items-center gap-3">
         <div>
-          <img :src="post.creator.picture" :alt="post.creator.name" class="creatorImg">
+          <router-link :to="{ name: 'Profile', params: { profileId: post.creatorId } }">
+            <img :src="post.creator.picture" :alt="post.creator.name" class="creatorImg">
+          </router-link>
         </div>
         <div>
           <h5>{{ post.creator.name }}</h5>

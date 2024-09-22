@@ -2,19 +2,32 @@
 import { Post } from '@/models/Post.js';
 import PostElem from './PostElem.vue';
 import { AppState } from '@/AppState.js';
-import { computed, watch } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import { postsService } from '@/services/PostsService.js';
 import Pop from '@/utils/Pop.js';
 import PostForm from './PostForm.vue';
+import { useRoute } from 'vue-router';
+import { profilesService } from '@/services/ProfilesService.js';
 
+
+// const props = defineProps({
+//   posts: { type: Array, required: true },
+//   profile: { type: String }
+// })
 
 /**
  * @type {{posts: Post[]}} 
  */
 const { posts } = defineProps(['posts']);
+const route = useRoute();
 
 const currentPage = computed(() => AppState.currentPage);
 const totalPages = computed(() => AppState.totalPages);
+const activeProfile = computed(() => AppState.activeProfile);
+
+onMounted(() => {
+  getProfile();
+})
 
 watch(() => AppState.posts, () => {
   let listElem = document.getElementById('post-list');
@@ -30,6 +43,20 @@ async function getPosts(page) {
   }
 }
 
+async function getProfile() {
+  try {
+    const profileId = route.params.profileId;
+    if (!profileId) {
+      AppState.activeProfile = null;
+      return
+    }
+    await profilesService.getProfileById(profileId);
+  } catch (error) {
+    Pop.error(error);
+  }
+
+}
+
 </script>
 
 
@@ -37,6 +64,11 @@ async function getPosts(page) {
   <section class="row post-box">
     <div class="col-12 p-0">
       <div id="post-list" class="container-fluid post-list px-5">
+        <section v-if="activeProfile" class="row profile my-5">
+          <div class="col-12">
+            <img :src="activeProfile.coverImg">
+          </div>
+        </section>
         <PostForm />
         <PostElem v-for="post in posts" :key="post.id" :post="post" />
       </div>
@@ -70,5 +102,20 @@ async function getPosts(page) {
 
 .nav-holder {
   height: 64px;
+}
+
+.creatorImg {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+}
+
+.profile {
+  position: relative;
+  box-shadow: 1px 1px 10px #999999;
+  background-color: var(--lightest);
+  padding: 2rem;
 }
 </style>

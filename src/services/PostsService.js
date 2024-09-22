@@ -18,6 +18,14 @@ class PostsService {
     AppState.totalPages = response.data.totalPages;
   }
 
+  async getPostsByProfile(profileId) {
+    const response = await api.get(`/api/profiles/${profileId}/posts`);
+    const newPosts = response.data.posts.map(post => new Post(post));
+    AppState.posts = newPosts;
+    AppState.currentPage = response.data.page;
+    AppState.totalPages = response.data.totalPages;
+  }
+
   async createPost(content) {
     const response = await api.post('/api/posts', content);
     console.log(response.data)
