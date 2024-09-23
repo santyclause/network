@@ -43,7 +43,7 @@ const account = computed(() => AppState.account);
     <div class="w-100 d-flex justify-content-between align-items-center nav-pad">
       <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
         <div class="d-flex flex-column align-items-center">
-          <img alt="logo" src="/img/cw-logo.png" height="45" />
+          <img alt="logo" src="../assets/img/network.png" height="45" />
         </div>
       </router-link>
       <div>

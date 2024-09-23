@@ -1,6 +1,24 @@
 <script setup>
 import Navbar from './components/Navbar.vue';
 import { AppState } from './AppState.js';
+import { computed, onMounted } from 'vue';
+import { adsService } from './services/AdsService.js';
+import Pop from './utils/Pop.js';
+
+const ads = computed(() => AppState.ads);
+
+onMounted(() => {
+  getAds();
+})
+
+async function getAds() {
+  try {
+    await adsService.getAds();
+  }
+  catch (error) {
+    Pop.error(error);
+  }
+}
 
 </script>
 
@@ -15,7 +33,9 @@ import { AppState } from './AppState.js';
           <router-view />
         </div>
         <div class="col-2">
-          Ads
+          <div v-for="ad in ads" :key="ad.title" class="my-3">
+            <img :src="ad.tallImg" :alt="ad.title" class="img-fluid">
+          </div>
         </div>
       </section>
     </div>

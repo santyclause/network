@@ -23,16 +23,22 @@ async function createPost() {
   }
 }
 
+// TODO add a delete post here
+
 function clearImgText() {
   editableFormData.value.imgUrl = '';
 }
+
+const canAddPost = computed(() => {
+  return (account.value && !activeProfile.value)
+    || (activeProfile.value && account.value?.id == activeProfile.value.id)
+})
 
 </script>
 
 
 <template>
-  <form v-if="account && activeProfile?.id == account.id || account && !activeProfile" @submit.prevent="createPost()"
-    class="row post my-5">
+  <form v-if="canAddPost" @submit.prevent="createPost()" class="row post my-5">
     <div class="col-12 mb-3">
       <div class="d-flex align-items-center">
         <div class="me-3">

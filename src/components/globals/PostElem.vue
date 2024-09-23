@@ -11,21 +11,26 @@ const props = defineProps({
 
 const account = computed(() => AppState.account);
 const likeCount = computed(() => props.post.likes.length)
-// let liked = checkIfLiked();
 
-async function checkIfLiked() {
-  try {
-    const liked = await postsService.checkIfLiked(props.post.id);
-    console.log(liked, props.post.id);
-    return liked;
-  } catch (error) {
-    Pop.error(error);
-  }
-}
+const checkIfLiked = computed(() =>
+  props.post.likes.find(l => l.id == AppState.account?.id)
+)
 
 async function likePost(postId) {
   try {
     await postsService.likePost(postId);
+  }
+  catch (error) {
+    Pop.error(error);
+  }
+}
+
+async function deletePost(postId) {
+  try {
+    const wantsToDelete = await Pop.confirm('Are you sure you want to delete this?');
+    if (wantsToDelete) {
+      await postsService.deletePost(postId);
+    }
   }
   catch (error) {
     Pop.error(error);
@@ -57,12 +62,17 @@ async function likePost(postId) {
       <img :src="post.imgUrl" alt="image" class="img-fluid">
     </div>
     <div class="col-12">
-      <div class="pt-3 d-flex align-items-end justify-content-end fs-3">
-        <i v-if="!account" class="mdi mdi-heart-outline mx-3"></i>
-        <i v-if="account && !checkIfLiked()" class="mdi mdi-heart-outline mx-3" role="button"
-          @click="likePost(post.id)"></i>
-        <i v-if="account && checkIfLiked()" class="mdi mdi-heart mx-3" role="button" @click="likePost(post.id)"></i>
-        <span>{{ likeCount }}</span>
+      <div class="pt-3 d-flex align-items-end justify-content-between fs-3">
+        <div>
+          <button v-if="account && account.id == post.creatorId" class="btn btn-outline-danger"
+            @click="deletePost(post.id)">Delete</button>
+        </div>
+        <div>
+          <i v-if="!account" class="mdi mdi-heart-outline mx-3"></i>
+          <i v-if="!checkIfLiked" class="mdi mdi-heart-outline mx-3" role="button" @click="likePost(post.id)"></i>
+          <i v-if="checkIfLiked" class="mdi mdi-heart mx-3" role="button" @click="likePost(post.id)"></i>
+          <span>{{ likeCount }}</span>
+        </div>
       </div>
     </div>
   </section>

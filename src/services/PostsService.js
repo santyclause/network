@@ -38,21 +38,28 @@ class PostsService {
     AppState.posts.unshift(newPost);
   }
 
-  async checkIfLiked(postId) {
-    const response = await api.get(`/api/posts/${postId}`);
-    const newPost = new Post(response.data);
-    let liked = false;
-    newPost.likes.forEach(like => {
-      if(like.id == AppState.account.id) {
-        liked = true;
-      }
-    })
-    return liked;
-  }
+  // async checkIfLiked(postId) {
+  //   const response = await api.get(`/api/posts/${postId}`);
+  //   const newPost = new Post(response.data);
+  //   let liked = false;
+  //   newPost.likes.forEach(like => {
+      
+  //   })
+  //   return liked;
+  // }
 
   async likePost(postId) {
     const response = await api.post(`/api/posts/${postId}/like`);
-    console.log(response.data);
+    const newPost = new Post(response.data);
+    const postIndex = AppState.posts.findIndex(post => post.id == postId);
+    AppState.posts.splice(postIndex, 1, newPost);
+  }
+
+  async deletePost(postId) {
+    const response = await api.delete(`/api/posts/${postId}`);
+    const postIndex = AppState.posts.findIndex(post => post.id == postId);
+
+    AppState.posts.splice(postIndex, 1)
   }
 }
 
