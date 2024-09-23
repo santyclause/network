@@ -23,12 +23,13 @@ async function logout() {
       <div class="dropdown my-2 my-lg-0">
         <div type="button" class="border-0 selectable no-select" data-bs-toggle="dropdown" aria-expanded="false">
           <div v-if="account?.picture || identity?.picture">
-            <img :src="account?.picture || identity?.picture" alt="account photo" class="img-fluid rounded-circle" />
+            <img :src="account?.picture || identity?.picture" alt="account photo"
+              class="img-fluid rounded-circle acc-img" />
           </div>
         </div>
         <div class="dropdown-menu dropdown-menu-sm-end dropdown-menu-start p-0" aria-labelledby="authDropdown">
           <div class="list-group">
-            <router-link :to="{ name: 'Account' }">
+            <router-link :to="{ name: 'Profile', params: { profileId: account?.id } }">
               <div class="list-group-item dropdown-item list-group-item-action">
                 Your Profile
               </div>
@@ -44,4 +45,11 @@ async function logout() {
   </span>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.acc-img {
+  width: 150px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  object-position: center;
+}
+</style>
