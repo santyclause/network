@@ -29,9 +29,15 @@ const account = computed(() => AppState.account);
       <div v-if="account" class="d-flex flex-column mx-5">
         <p>{{ account.class }}</p>
         <h3>{{ account.name }}</h3>
-        <p>{{ account.github }}</p>
-        <p>{{ account.linkedin }}</p>
-        <p>{{ account.resume }}</p>
+        <a v-if="account.github" :href="account.github" :title="account.github">
+          <i class="mdi mdi-github fs-2"></i>
+        </a>
+        <a v-if="account.linkedin">
+          <i class="mdi mdi-linkedin fs-2"></i>
+        </a>
+        <a v-if="account.resume">
+          <i class="mdi mdi-resume fs-2"></i>
+        </a>
       </div>
     </div>
     <div class="w-100 d-flex justify-content-between align-items-center nav-pad">
@@ -53,6 +59,10 @@ const account = computed(() => AppState.account);
 .nav-pad {
   padding-left: 21vw;
   padding-right: 1vw;
+}
+
+a {
+  color: black;
 }
 
 a:hover {

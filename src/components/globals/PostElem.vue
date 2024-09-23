@@ -1,11 +1,20 @@
 <script setup>
 import { Post } from '@/models/Post.js';
-
-
+import { postsService } from '@/services/PostsService.js';
+import Pop from '@/utils/Pop.js';
 
 defineProps({
   post: { type: Post, required: true }
 })
+
+async function likePost(postId) {
+  try {
+    await postsService.likePost(postId);
+  }
+  catch (error) {
+    Pop.error(error);
+  }
+}
 
 </script>
 
@@ -32,7 +41,7 @@ defineProps({
     </div>
     <div class="col-12">
       <div class="pt-3 d-flex align-items-end justify-content-end fs-3">
-        <i class="mdi mdi-heart-outline mx-3" role="button"></i>
+        <i class="mdi mdi-heart-outline mx-3" role="button" @click="likePost(post.id)"></i>
         <span>{{ post.likes.length }}</span>
       </div>
     </div>

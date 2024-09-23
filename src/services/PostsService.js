@@ -28,9 +28,13 @@ class PostsService {
 
   async createPost(content) {
     const response = await api.post('/api/posts', content);
-    console.log(response.data)
-    // const newPost = new Post(response.data);
-    // AppState.posts.unshift(newPost);
+    const newPost = new Post(response.data);
+    AppState.posts.unshift(newPost);
+  }
+
+  async likePost(postId) {
+    const response = await api.post(`/api/posts/${postId}/like`);
+    console.log(response.data);
   }
 }
 

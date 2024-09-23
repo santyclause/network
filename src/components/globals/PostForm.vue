@@ -6,6 +6,7 @@ import { computed, ref } from 'vue';
 
 
 const account = computed(() => AppState.account);
+const activeProfile = computed(() => AppState.activeProfile)
 
 const editableFormData = ref({
   body: '',
@@ -30,7 +31,7 @@ function clearImgText() {
 
 
 <template>
-  <form v-if="account" @submit.prevent="createPost()" class="row post my-5">
+  <form v-if="account && activeProfile?.id == account.id" @submit.prevent="createPost()" class="row post my-5">
     <div class="col-12 mb-3">
       <div class="d-flex align-items-center">
         <div class="me-3">
