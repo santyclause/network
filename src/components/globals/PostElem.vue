@@ -1,11 +1,27 @@
 <script setup>
+import { AppState } from '@/AppState.js';
 import { Post } from '@/models/Post.js';
 import { postsService } from '@/services/PostsService.js';
 import Pop from '@/utils/Pop.js';
+import { computed } from 'vue';
 
-defineProps({
+const props = defineProps({
   post: { type: Post, required: true }
 })
+
+const account = computed(() => AppState.account);
+const likeCount = computed(() => props.post.likes.length)
+// let liked = checkIfLiked();
+
+async function checkIfLiked() {
+  try {
+    const liked = await postsService.checkIfLiked(props.post.id);
+    console.log(liked, props.post.id);
+    return liked;
+  } catch (error) {
+    Pop.error(error);
+  }
+}
 
 async function likePost(postId) {
   try {
@@ -30,6 +46,7 @@ async function likePost(postId) {
         </div>
         <div>
           <h5>{{ post.creator.name }}</h5>
+          <p>{{ post.createdAt.toLocaleString() }}</p>
         </div>
       </div>
     </div>
@@ -41,8 +58,11 @@ async function likePost(postId) {
     </div>
     <div class="col-12">
       <div class="pt-3 d-flex align-items-end justify-content-end fs-3">
-        <i class="mdi mdi-heart-outline mx-3" role="button" @click="likePost(post.id)"></i>
-        <span>{{ post.likes.length }}</span>
+        <i v-if="!account" class="mdi mdi-heart-outline mx-3"></i>
+        <i v-if="account && !checkIfLiked()" class="mdi mdi-heart-outline mx-3" role="button"
+          @click="likePost(post.id)"></i>
+        <i v-if="account && checkIfLiked()" class="mdi mdi-heart mx-3" role="button" @click="likePost(post.id)"></i>
+        <span>{{ likeCount }}</span>
       </div>
     </div>
   </section>

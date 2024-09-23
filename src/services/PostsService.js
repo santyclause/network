@@ -18,8 +18,14 @@ class PostsService {
     AppState.totalPages = response.data.totalPages;
   }
 
-  async getPostsByProfile(profileId) {
-    const response = await api.get(`/api/profiles/${profileId}/posts`);
+  async getPostsByProfile(page, profileId) {
+    let pageToBe;
+    if(!page) {
+      pageToBe = '';
+    } else {
+      pageToBe = '?page=' + page;
+    }
+    const response = await api.get(`/api/profiles/${profileId}/posts${pageToBe}`);
     const newPosts = response.data.posts.map(post => new Post(post));
     AppState.posts = newPosts;
     AppState.currentPage = response.data.page;
@@ -30,6 +36,18 @@ class PostsService {
     const response = await api.post('/api/posts', content);
     const newPost = new Post(response.data);
     AppState.posts.unshift(newPost);
+  }
+
+  async checkIfLiked(postId) {
+    const response = await api.get(`/api/posts/${postId}`);
+    const newPost = new Post(response.data);
+    let liked = false;
+    newPost.likes.forEach(like => {
+      if(like.id == AppState.account.id) {
+        liked = true;
+      }
+    })
+    return liked;
   }
 
   async likePost(postId) {

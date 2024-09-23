@@ -31,7 +31,8 @@ function clearImgText() {
 
 
 <template>
-  <form v-if="account && activeProfile?.id == account.id" @submit.prevent="createPost()" class="row post my-5">
+  <form v-if="account && activeProfile?.id == account.id || account && !activeProfile" @submit.prevent="createPost()"
+    class="row post my-5">
     <div class="col-12 mb-3">
       <div class="d-flex align-items-center">
         <div class="me-3">

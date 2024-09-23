@@ -38,9 +38,13 @@ const editableProfileFormData = ref({
   graduated: false
 })
 
-onMounted(() => {
+// onMounted(() => {
+//   getProfile();
+// })
+
+watch(() => route.params.profileId, () => {
   getProfile();
-})
+}, { immediate: true })
 
 watch(() => AppState.posts, () => {
   let listElem = document.getElementById('post-list');
@@ -65,7 +69,11 @@ watch(() => AppState.account, () => {
 
 async function getPosts(page) {
   try {
-    await postsService.getPosts(page);
+    if (route.params.profileId) {
+      await postsService.getPostsByProfile(page, route.params.profileId);
+    } else {
+      await postsService.getPosts(page);
+    }
   }
   catch (error) {
     Pop.error(error);
@@ -149,7 +157,7 @@ function toggleEditProfile() {
           </div>
         </section>
         <!-- STUB Edit Profile Form -->
-        <section v-if="account" class="row hidden profile my-5" id="profile-form-cont">
+        <section v-if="account && activeProfile" class="row hidden profile my-5" id="profile-form-cont">
           <div class="col-12">
             <form @submit.prevent="updateAccount(), toggleEditProfile()">
               <section class="row p-0">
